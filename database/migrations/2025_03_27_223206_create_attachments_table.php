@@ -10,16 +10,20 @@ return new class extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('subjectable_type', 255);
-            $table->uuid('subjectable_id');
-            $table->string('name', 255);
-            $table->string('original_name', 255);
-            $table->string('mime_type', 255);
-            $table->string('full_path', 255);
-            $table->string('disk', 255);
-            $table->bigInteger('size');
+            $table->uuidMorphs('attachmentable');
+
+            $table->string('name');
+            $table->string('original_name');
+
+            $table->string('mime_type')->nullable();
+            $table->string('full_path')->nullable();
+
+            $table->string('disk')->default('local');
+            $table->unsignedBigInteger('size');
+            $table->string('collection_name')->nullable();
             $table->json('custom_properties')->nullable();
-            $table->string('collection_name', 255)->nullable();
+            $table->nullableUuidMorphs('submitable');
+
             $table->timestamps();
         });
     }
