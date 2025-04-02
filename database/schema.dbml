@@ -1,0 +1,255 @@
+Table user_db.Admins {
+  id uuid [pk]
+  national_id varchar(20) [unique, null]
+  name varchar(255)
+  email varchar(255) [unique]
+  password varchar(255)
+  phone varchar(20) [unique]
+  status enum('suspended', 'active', 'deleted') [default: 'suspended']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_db.Users {
+  id uuid [pk]
+  national_id varchar(20) [unique]
+  name varchar(255)
+  email varchar(255) [unique]
+  password varchar(255)
+  phone varchar(20) [unique]
+  status enum('active', 'suspended', 'deleted') [default: 'active']
+  role enum('user', 'company') [default: 'user']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_db.User_Profiles {
+  id uuid [pk]
+  user_id uuid [not null, unique, ref: > user_db.Users.id]
+  date_of_birth date [null]
+  gender enum('male', 'female', 'other') [null]
+  address text [null]
+  city_id uuid [null, ref: > shared_db.Cities.id]  // New: City of national address
+  license_number varchar(50) [null, unique]
+  education_level enum('none', 'primary', 'secondary', 'bachelor', 'postgraduate') [null]  // New: Education level
+  number_of_children int [default: 0]  // New: Number of children
+  accidents_last_5_years int [default: 0]  // New: Number of accidents in last 5 years
+  license_restrictions enum('none', 'glasses', 'automatic_only', 'other') [default: 'none']  // New: License restrictions
+  created_at timestamp
+  updated_at timestamp
+}
+
+// Table user_db.Roles {
+//   id uuid [pk]
+//   name varchar(255) [unique]
+//   guard_name varchar(255)  // For different auth contexts (e.g., web, API)
+//   created_at timestamp
+// }
+
+// Table user_db.Permissions {
+//   id uuid [pk]
+//   name varchar(255) [unique]
+//   guard_name varchar(255)
+//   created_at timestamp
+// }
+
+// Table user_db.Model_Has_Roles {
+//   role_id uuid [not null, ref: > user_db.Roles.id]
+//   model_type varchar(255)  // e.g., 'Users'
+//   model_id uuid [not null]
+//   primary key (role_id, model_id, model_type)
+// }
+
+// Table user_db.Model_Has_Permissions {
+//   permission_id uuid [not null, ref: > user_db.Permissions.id]
+//   model_type varchar(255)
+//   model_id uuid [not null, ref: > user_db.Users.id]
+//   primary key (permission_id, model_id, model_type)
+// }
+
+// Table user_db.Role_Has_Permissions {
+//   permission_id uuid [not null, ref: > user_db.Permissions.id]
+//   role_id uuid [not null, ref: > user_db.Roles.id]
+//   primary key (permission_id, role_id)
+// }
+
+Table vehicle_db.Vehicles {
+  id uuid [pk]
+  user_id uuid [ref: > user_db.Users.id]
+  vin varchar(50) [unique]
+  type varchar(50)
+  model_month tinyint [not null]
+  model_year tinyint [not null]
+  manufacture_year int
+  plate_char_ar varchar(15)  // Arabic plate prefix
+  plate_char_en varchar(15)  // English plate prefix
+  plate_number_ar varchar(15) [unique]  // Arabic plate number
+  plate_number_en varchar(15) [unique]  // English plate number
+  status enum('active', 'expired', 'sold') [default: 'active']
+  parking_location enum('street', 'garage', 'parking_lot') [default: 'street']  // New: Where the vehicle is parked at night
+  transmission_type enum('automatic', 'manual') [default: 'automatic']  // New: Transmission type
+  expected_annual_mileage enum('1-20000', '20001-40000', '40001-60000', '60001+') [default: '1-20000']  // New: Expected annual mileage range
+  has_trailer boolean [default: false]  // New: Does the vehicle have a trailer?
+  used_for_racing boolean [default: false]  // New: Is the vehicle used for racing or speed testing?
+  has_modifications boolean [default: false]  // New: Are there modifications to the vehicle?
+  load int [default: 0]
+  price decimal(10,2) [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    user_id  // Index for faster lookups by user
+    vin
+  }
+}
+
+Table vehicle_db.Drivers {
+  id uuid [pk]
+  user_id uuid [not null, ref: > user_db.Users.id]
+  national_id varchar(20) [unique]
+  name varchar(255) [not null]
+  date_of_birth date [null]
+  license_number varchar(50) [not null, unique]
+  relationship_to_user enum('self', 'spouse', 'child', 'employee', 'other') [default: 'self']
+  years_of_experience int [default: 0]
+  work_city_same_as_address boolean [default: false]  // New: Is work city same as address?
+  work_city_id uuid [null, ref: > shared_db.Cities.id]  // Updated: Reference to Cities table
+  has_international_license boolean [default: false]  // New: Has international license?
+  international_license_country varchar(100) [null]  // New: Country of international license
+  international_license_years int [default: 0]  // New: Years of international license
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table vehicle_db.Driver_Violations {
+  id uuid [pk]
+  driver_id uuid [not null, ref: > vehicle_db.Drivers.id]  // Link to driver
+  violation_type enum('speeding', 'red_light', 'wrong_way', 'drifting', 'illegal_parking', 'other') [not null]  // Type of violation
+  violation_date date [not null]  // Date of the violation
+  fine_amount decimal(10,2) [null]  // Fine amount (if applicable)
+  description text [null]  // Additional details about the violation
+  created_at timestamp
+  updated_at timestamp
+  indexes { driver_id }
+}
+
+Table insurance_db.Insurance_Companies {
+  id uuid [pk]
+  name varchar(100)
+  logo_url varchar(255)
+  email varchar(255)
+  phone varchar(20)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table insurance_db.Offers {
+  id uuid [pk]
+  offer_number varchar(50) [unique]
+  user_id uuid [not null, ref: > user_db.Users.id]
+  company_id uuid [ref: > insurance_db.Insurance_Companies.id]
+  vehicle_id uuid [ref: > vehicle_db.Vehicles.id]
+  driver_id uuid [null, ref: > vehicle_db.Drivers.id]  // New: Link to driver
+  type enum('comprehensive', 'third_party')
+  price decimal(10,2) [not null]
+  currency varchar(3) [default: 'SAR']
+  repair_type enum('agency', 'workshop')
+  expiration_date date
+  discount decimal(10,2) [default: 0]
+  tax decimal(10,2) [default: 0]
+  total decimal(10,2)
+  status enum('pending', 'accepted', 'rejected') [default: 'pending']
+  has_previous_claim boolean [default: false]  // Can now be derived from Accidents
+  notes text [null]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    user_id
+    vehicle_id
+    driver_id
+  }
+}
+
+Table insurance_db.Policies {
+  id uuid [pk]
+  user_id uuid [not null, ref: > user_db.Users.id]
+  vehicle_id uuid [not null, ref: > vehicle_db.Vehicles.id]
+  driver_id uuid [null, ref: > vehicle_db.Drivers.id]  // New: Link to driver
+  company_id uuid [not null, ref: > insurance_db.Insurance_Companies.id]
+  policy_number varchar(50) [unique]
+  coverage_type varchar(50)  // e.g., enum('third_party', 'comprehensive')
+  start_date date
+  end_date date
+  premium_amount decimal(10,2)
+  currency varchar(3) [default: 'SAR']
+  status enum('active', 'expired', 'cancelled') [default: 'active']
+  renewal_date date  // Next renewal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table insurance_db.Payments {
+  id uuid [pk]
+  user_id uuid [not null, ref: > user_db.Users.id]
+  policy_id uuid [ref: > insurance_db.Policies.id] 
+  amount decimal(10,2)
+  currency varchar(3) [default: 'SAR']
+  method enum('Mada', 'Visa', 'ApplePay', 'SADAD')
+  status enum('paid', 'pending', 'failed') [default: 'pending']
+  transaction_id varchar(50)  // Payment gateway reference
+  payment_date timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table shared_db.Notifications {
+  id uuid [pk]
+  user_id uuid [not null, ref: > user_db.Users.id]
+  type varchar(50)  // e.g., 'policy_expiry', 'payment_due'
+  title varchar(255)
+  body text
+  read_status boolean [default: false]
+  created_at timestamp
+}
+
+Table shared_db.Attachments {
+  id uuid [pk]
+  subjectable_type varchar(255) [not null]  // e.g., 'Policies', 'Offers'
+  subjectable_id uuid [not null]  // Polymorphic reference
+  name varchar(255) [not null]  // Generated file name
+  original_name varchar(255) [not null]  // User-uploaded file name
+  mime_type varchar(255) [not null]  // e.g., 'application/pdf'
+  full_path varchar(255) [not null]  // Storage path
+  disk varchar(255) [not null]  // Storage disk (e.g., 's3', 'local')
+  size bigint [not null]  // File size in bytes
+  custom_properties json [null]  // Extra metadata
+  collection_name varchar(255) [null]  // e.g., 'policy_docs'
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table shared_db.Audits {
+  id uuid [pk]
+  user_type varchar(255) [null]
+  user_id uuid [null, ref: > user_db.Users.id]
+  event varchar(255) [not null]
+  auditable_type varchar(255) [not null]
+  auditable_id uuid [not null]
+  old_values json [null]
+  new_values json [null]
+  url varchar(255) [null]
+  ip_address varchar(45) [null]
+  user_agent varchar(1024) [null]
+  tags varchar(255) [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table shared_db.Cities {
+  id uuid [pk]
+  name_ar varchar(100) [not null]  // Arabic name (e.g., "الرياض")
+  name_en varchar(100) [not null]  // English name (e.g., "Riyadh")
+  created_at timestamp
+  updated_at timestamp
+}
