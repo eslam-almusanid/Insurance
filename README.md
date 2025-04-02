@@ -1,66 +1,91 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Insurance Broker Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a Laravel-based insurance broker platform designed to manage users, vehicles, drivers, insurance offers, policies, and payments. The system uses multiple PostgreSQL databases (`user_db`, `vehicle_db`, `insurance_db`, and `shared_db`) to separate concerns and ensure scalability. It supports features like new/transfer insurance types, registration types (new, renew, customs card), and a streamlined workflow for offer generation and policy management.
 
-## About Laravel
+## Features
+- **User Management**: Register and manage users with profiles, roles, and permissions.
+- **Vehicle & Driver Management**: Store vehicle details and driver information, including violations.
+- **Insurance Offers & Policies**: Request, generate, and accept insurance offers; issue policies with new/transfer and new/renew/customs card registration types.
+- **Payment Processing**: Handle payments with multiple methods (e.g., Mada, Visa).
+- **Notifications & Audits**: Send notifications and log actions for accountability.
+- **Multi-Database Architecture**: Separate databases for users, vehicles, insurance, and shared data.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prerequisites
+- PHP 8.1 or higher
+- Composer
+- PostgreSQL 13 or higher
+- Git
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/insurance-broker-platform.git
+cd insurance-broker-platform
+```
 
-## Learning Laravel
+### 2. Clone the Repository
+```bash
+composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 3. Configure Environment
+#### a. Copy the example .env file and update it with your settings:
+```bash
+cp .env.example .env
+```
+#### b. Edit .env with your PostgreSQL credentials and database names:
+```bash
+DB_CONNECTION=user_db
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+USER_DB_DATABASE=user_db
+VEHICLE_DB_DATABASE=vehicle_db
+INSURANCE_DB_DATABASE=insurance_db
+SHARED_DB_DATABASE=shared_db
+```
+#### c. Generate an application key:
+```bash
+php artisan key:generate
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+### 4. Set Up PostgreSQL Databases
+#### a. Connect to PostgreSQL as a superuser (e.g., postgres):
+```bash
+psql -U postgres
+```
+#### b. Run the following SQL commands to create the databases:
+```bash
+CREATE DATABASE user_db WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' TABLESPACE = pg_default CONNECTION LIMIT = -1;
+CREATE DATABASE vehicle_db WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' TABLESPACE = pg_default CONNECTION LIMIT = -1;
+CREATE DATABASE insurance_db WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' TABLESPACE = pg_default CONNECTION LIMIT = -1;
+CREATE DATABASE shared_db WITH OWNER = postgres ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' TABLESPACE = pg_default CONNECTION LIMIT = -1;
+```
+#### c. (Optional) Create a dedicated user:
+```bash
+CREATE ROLE insurance_user WITH LOGIN PASSWORD 'your_secure_password';
+ALTER DATABASE user_db OWNER TO insurance_user;
+ALTER DATABASE vehicle_db OWNER TO insurance_user;
+ALTER DATABASE insurance_db OWNER TO insurance_user;
+ALTER DATABASE shared_db OWNER TO insurance_user;
+```
+#### d. Update .env with the new user if created.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 5. Run Migrations
+#### a. Run migrations for all databases (We Using Custom Command to run all db migrations):
+```bash
+php artisan migrate:all --fresh
+```
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 6. Start the Development Server
+#### a. Run migrations for each database:
+```bash
+php artisan serve
+```
+#### b. Visit http://localhost:8000 in your browser.
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
