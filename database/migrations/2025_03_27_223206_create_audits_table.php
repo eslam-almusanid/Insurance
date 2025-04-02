@@ -8,10 +8,10 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::connection('shared_db')->create('audits', function (Blueprint $table) {
+        Schema::create('audits', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('user_type', 255)->nullable();
-            $table->uuid('user_id')->nullable();
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('event', 255);
             $table->string('auditable_type', 255);
             $table->uuid('auditable_id');
@@ -21,15 +21,12 @@ return new class extends Migration
             $table->string('ip_address', 45)->nullable();
             $table->string('user_agent', 1024)->nullable();
             $table->string('tags', 255)->nullable();
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
-            $table->foreign('user_id')->references('id')->on('user_db.users')->onDelete('set null');
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::connection('shared_db')->dropIfExists('audits');
+        Schema::dropIfExists('audits');
     }
 };

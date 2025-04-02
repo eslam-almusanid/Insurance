@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('user_db')->create('users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('national_id', 20)->unique();
             $table->string('name', 255);
@@ -19,10 +19,8 @@ return new class extends Migration
             $table->string('password', 255);
             $table->string('phone', 20)->unique();
             $table->string('status')->default('active');
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            
-            // $table->checkConstraint("status IN ('active', 'suspended', 'deleted')", 'users_status_check');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection('user_db')->dropIfExists('users');
+        Schema::dropIfExists('users');
     }
 };
