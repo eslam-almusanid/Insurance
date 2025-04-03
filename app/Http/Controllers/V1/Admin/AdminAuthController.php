@@ -72,8 +72,11 @@ class AdminAuthController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
 
+        // Revoke all tokens for security
+        $admin->tokens()->delete();
+
         return response()->json([
-            'message' => 'Password changed successfully'
+            'message' => 'Password changed successfully. Please login again with your new password.'
         ]);
     }
 
