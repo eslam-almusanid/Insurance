@@ -89,3 +89,36 @@ php artisan serve
 ```
 #### b. Visit http://localhost:8000 in your browser.
 
+
+
+### 7. Final Structure with Versioning
+
+app/
+├── Http/
+│   └── Controllers/
+│       ├── V1/
+│       │   └── UserController.php
+│       └── V2/
+│           └── UserController.php
+├── Models/
+│   └── User.php
+├── Repositories/
+│   ├── Contracts/
+│   │   └── UserRepositoryInterface.php
+│   └── Eloquent/
+│       ├── V1/
+│       │   └── UserRepository.php
+│       └── V2/
+│           └── UserRepository.php
+├── Services/
+│   ├── V1/
+│   │   └── UserService.php
+│   └── V2/
+│       └── UserService.php
+├── Providers/
+│   └── RepositoryServiceProvider.php
+routes/
+│   ├── V1/
+│   │   └── api.php
+│   └── V2/
+│       └── api.php

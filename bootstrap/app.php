@@ -24,12 +24,16 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->name('api.v1.admin.')
                 ->group(base_path('routes/api/v1/admin.php'));
 
+            Route::middleware('api')
+                ->prefix('api/v1/user')
+                ->name('api.v1.user.')
+                ->group(base_path('routes/api/v1/user.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'admin' => AdminMiddleware::class,
-
+            'user' => UserMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
