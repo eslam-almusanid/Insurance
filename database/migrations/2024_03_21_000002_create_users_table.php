@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TokenTypesEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->string('password', 255);
             $table->string('phone', 20)->unique();
             $table->string('status')->default('active')->comment('active, suspended');
-            $table->enum('role', ['user', 'company'])->default('user');
+            $table->enum('role', TokenTypesEnum::getValues())->default(TokenTypesEnum::USER);
             $table->softDeletes();
             $table->timestamps();
         });

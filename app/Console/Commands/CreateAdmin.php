@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class CreateAdmin extends Command
 {
-    protected $signature = 'admin:create {email} {password} {name?} {phone?} {national_id?}';
+    protected $signature = 'create:admin {email} {password} {name?} {phone?} {national_id?}';
     protected $description = 'Create a new admin user';
 
     public function handle()
@@ -19,12 +19,11 @@ class CreateAdmin extends Command
         $email = $this->argument('email');
         $password = $this->argument('password');
         $name = $this->argument('name') ?? $this->ask('What is the admin name?') ?? 'Admin';
-        $phone = $this->argument('phone') ?? $this->ask('What is the admin phone?') ?? '01000000000';
+        $phone = $this->argument('phone') ?? $this->ask('What is the admin phone?') ?? '05000000000';
         $nationalId = $this->argument('national_id') ?? $this->ask('What is the admin national ID? (optional)');
 
         try {
             $admin = Admin::create([
-                'id' => Str::uuid(),
                 'name' => $name,
                 'email' => $email,
                 'password' => Hash::make($password),
