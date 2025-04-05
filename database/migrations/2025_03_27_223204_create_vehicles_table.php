@@ -10,16 +10,24 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('vin', 50)->unique();
-            $table->string('type', 50);
-            $table->tinyInteger('model_month');
-            $table->tinyInteger('model_year');
-            $table->integer('manufacture_year')->nullable();
+            $table->string('sequence_number', 50)->nullable()->unique();
             $table->string('plate_char_ar', 15);
             $table->string('plate_char_en', 15);
-            $table->string('plate_number_ar', 15)->unique();
-            $table->string('plate_number_en', 15)->unique();
+            $table->string('plate_number_ar', 15);
+            $table->string('plate_number_en', 15);
+            $table->string('make', 50);
+            $table->string('model', 50);
+            $table->integer('year')->nullable();
+            $table->string('color', 50);
+            $table->string('type', 50);
+            $table->string('modification_status', 50);
+            $table->string('vin', 50)->unique();
+            $table->string('registration_date', 50);
+            $table->string('owner_name', 50);
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+
+            $table->integer('month')->nullable();
+            $table->integer('manufacture_year')->nullable();
             $table->string('status')->default('active');
             $table->string('parking_location')->default('street');
             $table->string('transmission_type')->default('automatic');
@@ -28,7 +36,7 @@ return new class extends Migration
             $table->boolean('used_for_racing')->default(false);
             $table->boolean('has_modifications')->default(false);
             $table->integer('load')->default(0);
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 10, 2)->nullable();
             $table->timestamps();
 
 

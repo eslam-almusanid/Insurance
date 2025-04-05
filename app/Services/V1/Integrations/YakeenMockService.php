@@ -9,7 +9,6 @@ class YakeenMockService implements YakeenServiceInterface
 {
     public function verifyIdentity(string $nationalId): array
     {
-        // التحقق من طول رقم الهوية (10 أرقام في السعودية)
         if (strlen($nationalId) === 10 && preg_match('/^[1-2][0-9]{9}$/', $nationalId)) {
             return [
                 'status' => 'success',
@@ -18,6 +17,7 @@ class YakeenMockService implements YakeenServiceInterface
                     'national_id' => $nationalId,
                     'full_name_ar' => 'محمد عبدالله العتيبي',
                     'full_name_en' => 'Mohammed Abdullah Al-Otaibi',
+                    'phone_number' => '0500000000',
                     'date_of_birth_hijri' => '1400-05-15',
                     'date_of_birth_gregorian' => '1980-03-22',
                     'gender' => 'male',

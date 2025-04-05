@@ -103,7 +103,7 @@ app/
 ├── Models/
 │   └── User.php
 ├── Repositories/
-│   ├── Contracts/
+│   ├── Interfaces/
 │   │   └── UserRepositoryInterface.php
 │   └── Eloquent/
 │       ├── V1/

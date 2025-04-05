@@ -16,11 +16,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('national_id', 20)->unique();
             $table->string('name', 255);
-            $table->string('email', 255)->unique();
-            $table->string('password', 255);
+            $table->string('email', 255)->unique()->nullable();
+            $table->string('password', 255)->nullable();
             $table->string('phone', 20)->unique();
             $table->string('status')->default('active')->comment('active, suspended');
             $table->enum('role', TokenTypesEnum::getValues())->default(TokenTypesEnum::USER);
+            $table->enum('language', ['ar', 'en'])->default('ar');
             $table->softDeletes();
             $table->timestamps();
         });

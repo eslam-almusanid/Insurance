@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\Eloquent\V1;
 
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -27,6 +27,16 @@ class UserRepository implements UserRepositoryInterface
     public function create(array $data)
     {
         return $this->model->create($data);
+    }
+
+    public function updateOrCreate(array $data)
+    {
+        return $this->model->updateOrCreate(['national_id' => $data['national_id']], $data);
+    }
+
+    public function updateOrCreateInfo(array $data)
+    {
+        return $this->model->info()->updateOrCreate(['id' => $data['id']], $data);
     }
 
     public function update($id, array $data)
