@@ -86,10 +86,10 @@ class RegistrationService
             $vehicle = $this->verifyVehicle($data['national_id'], $data['sequence_number']);
             
             // 3. Create or update user
-            $user = $this->createOrUpdateUser($identity, $data);
+            $user = $this->updateOrCreateUser($identity, $data);
             
             // 4. Create or update vehicle
-            $vehicleModel = $this->createOrUpdateVehicle($vehicle, $user, $data);
+            $vehicleModel = $this->updateOrCreateVehicle($vehicle, $user, $data);
 
             DB::commit();
             return [
@@ -109,7 +109,7 @@ class RegistrationService
      * @param array $data
      * @return Model
      */
-    protected function createOrUpdateUser(array $identity, array $data): Model
+    protected function updateOrCreateUser(array $identity, array $data): Model
     {
         return $this->userRepository->updateOrCreate(
             [
@@ -133,7 +133,7 @@ class RegistrationService
      * @param array $data
      * @return Model
      */
-    protected function createOrUpdateVehicle(array $vehicle, Model $user, array $data): Model
+    protected function updateOrCreateVehicle(array $vehicle, Model $user, array $data): Model
     {
         $separatedPlate = $this->separatePlate($vehicle['plate']);
         
