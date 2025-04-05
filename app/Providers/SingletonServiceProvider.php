@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
-use App\Interfaces\NajmServiceInterface;
-use App\Interfaces\YakeenServiceInterface;
-use App\Services\V1\Integrations\NajmMockService;
-use App\Services\V1\Integrations\NajmService;
-use App\Services\V1\Integrations\YakeenMockService;
+use App\Integrations\Interfaces\NajmServiceInterface;
+use App\Integrations\Interfaces\YakeenServiceInterface;
+use App\Integrations\Najm\NajmMockService;
+use App\Integrations\Najm\NajmService;
+use App\Integrations\Yakeen\YakeenMockService;
+use App\Integrations\Yakeen\YakeenService;
 use Illuminate\Support\ServiceProvider;
 
 class SingletonServiceProvider extends ServiceProvider
@@ -22,6 +23,7 @@ class SingletonServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(YakeenServiceInterface::class, function ($app) {
+            // return new YakeenService();
             return new YakeenMockService();
         });
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\V1\Integrations;
+namespace App\Integrations\Najm;
 
-use App\Interfaces\NajmServiceInterface;
+use App\Integrations\Interfaces\NajmServiceInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 

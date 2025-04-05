@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\V1\Integrations;
+namespace App\Integrations\Yakeen;
 
-use App\Interfaces\YakeenServiceInterface;
+use App\Integrations\Interfaces\YakeenServiceInterface;
 use Illuminate\Support\Str;
 
 class YakeenMockService implements YakeenServiceInterface

@@ -3,8 +3,8 @@
 namespace App\Services\V1;
 
 use App\Enums\TokenTypesEnum;
-use App\Interfaces\NajmServiceInterface;
-use App\Interfaces\YakeenServiceInterface;
+use App\Integrations\Interfaces\NajmServiceInterface;
+use App\Integrations\Interfaces\YakeenServiceInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\VehicleRepositoryInterface;
 use Illuminate\Support\Facades\DB;
