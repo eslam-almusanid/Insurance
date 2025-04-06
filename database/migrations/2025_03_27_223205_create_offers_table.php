@@ -17,9 +17,8 @@ return new class extends Migration
             $table->foreignUuid('driver_id')->nullable()->constrained('drivers')->onDelete('set null');
             $table->string('type');
             $table->string('insurance_type');
-            $table->string('national_id_owner', 20)->nullable();
-            $table->string('national_id_current_owner', 20)->nullable();
-            $table->string('national_id_transfer_person', 20)->nullable();
+            $table->string('national_id', 20)->nullable();
+            $table->string('seller_national_id', 20)->nullable();
             $table->string('registration_type');
             $table->string('custom_number', 50)->nullable();
             $table->decimal('price', 10, 2);

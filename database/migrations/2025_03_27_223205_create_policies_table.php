@@ -17,9 +17,8 @@ return new class extends Migration
             $table->string('policy_number', 50)->unique();
             $table->string('coverage_type', 50);
             $table->string('insurance_type');
-            $table->string('national_id_owner', 20)->nullable();
-            $table->string('national_id_current_owner', 20)->nullable();
-            $table->string('national_id_transfer_person', 20)->nullable();
+            $table->string('national_id', 20)->nullable();
+            $table->string('seller_national_id', 20)->nullable();
             $table->string('registration_type');
             $table->string('custom_number', 50)->nullable();
             $table->date('start_date');

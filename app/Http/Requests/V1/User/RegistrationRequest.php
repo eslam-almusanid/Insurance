@@ -27,12 +27,11 @@ class RegistrationRequest extends FormRequest
 
             'transfer' => ['required', 'boolean'],
             'national_id' => ['required', new SaudiIDRule],
-            'owner_national_id' => [
+            'seller_national_id' => [
                 'required_if:transfer,true',
                 'different:national_id',
                 new SaudiIDRule,
             ],
-
             'reg_type' => [
                 'required',
                 'string',
@@ -57,7 +56,7 @@ class RegistrationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'owner_national_id.different' => "you can't transfer ownership to your self.",
+            'seller_national_id.different' => "you can't transfer ownership to your self.",
         ];
     }
 } 
