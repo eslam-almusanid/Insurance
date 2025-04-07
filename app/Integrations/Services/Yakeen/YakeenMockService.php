@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Integrations\Yakeen;
+namespace App\Integrations\Services\Yakeen;
 
 use App\Integrations\Interfaces\YakeenServiceInterface;
 use Illuminate\Support\Str;

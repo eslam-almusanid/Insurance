@@ -4,10 +4,10 @@ namespace App\Providers;
 
 use App\Integrations\Interfaces\NajmServiceInterface;
 use App\Integrations\Interfaces\YakeenServiceInterface;
-use App\Integrations\Najm\NajmMockService;
-use App\Integrations\Najm\NajmService;
-use App\Integrations\Yakeen\YakeenMockService;
-use App\Integrations\Yakeen\YakeenService;
+use App\Integrations\Services\Najm\NajmMockService;
+use App\Integrations\Services\Najm\NajmService;
+use App\Integrations\Services\Yakeen\YakeenMockService;
+use App\Integrations\Services\Yakeen\YakeenService;
 use Illuminate\Support\ServiceProvider;
 
 class SingletonServiceProvider extends ServiceProvider

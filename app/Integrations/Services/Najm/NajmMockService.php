@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Integrations\Najm;
+namespace App\Integrations\Services\Najm;
 
 use App\Integrations\Interfaces\NajmServiceInterface;
 use Illuminate\Support\Str;
@@ -32,6 +32,7 @@ class NajmMockService implements NajmServiceInterface
             'request_id' => Str::uuid()->toString()
         ];
     }
+
     public function checkPolicyStatus(string $nationalId, string $vehicleSequenceNumber, string $policyNumber): array
     {
         // Mock data للتحقق من حالة البوليصة

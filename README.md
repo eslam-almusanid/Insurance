@@ -100,8 +100,6 @@ app/
 │       │   └── UserController.php
 │       └── V2/
 │           └── UserController.php
-├── Models/
-│   └── User.php
 ├── Repositories/
 │   ├── Interfaces/
 │   │   └── UserRepositoryInterface.php
@@ -110,13 +108,22 @@ app/
 │       │   └── UserRepository.php
 │       └── V2/
 │           └── UserRepository.php
+├── Providers/
+│   ├── AppServiceProvider.php
+│   ├── RepositoryServiceProvider.php
+│   └── SingletonServiceProvider.php
+├── Integrations/
+│   ├── Interfaces/
+│   │   └── ExternalServiceInterface.php
+│   └── Services/
+│       └── ServiceName.php
+├── Models/
+│   └── User.php
 ├── Services/
 │   ├── V1/
 │   │   └── UserService.php
 │   └── V2/
 │       └── UserService.php
-├── Providers/
-│   └── RepositoryServiceProvider.php
 routes/
 │   ├── V1/
 │   │   └── api.php

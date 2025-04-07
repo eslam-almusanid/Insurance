@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Integrations\Najm;
+namespace App\Integrations\Services\Najm;
 
 use App\Integrations\Interfaces\NajmServiceInterface;
 use Illuminate\Support\Facades\Http;
@@ -86,6 +86,7 @@ class NajmService implements NajmServiceInterface
             return $response->json();
         }
 
+        logger()->error("Najm API request failed: " . $response->body(), $response->status());
         throw new \Exception("Najm API request failed: " . $response->body(), $response->status());
     }
 }
