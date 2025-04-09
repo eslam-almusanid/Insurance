@@ -129,3 +129,6 @@ routes/
 │   │   └── api.php
 │   └── V2/
 │       └── api.php
+
+### 8. Workflow
+https://miro.com/welcomeonboard/VS9SdDJJQ2JkVHVMeVpsQ3dGYkVpNW5lR3BvSnVYRzZoVzFVOUFzNUtHbjI1clpBZHA1MkQ0WTRyVjkrMGk0eWJNTWFzN25NOXhQb3czK1BtalJFejFiVDhydFQ5UG9leWtVMzZYbTBVejRKblMwVGpDbzg5WUFOSTBPWmJzQ3Z3VHhHVHd5UWtSM1BidUtUYmxycDRnPT0hdjE=?share_link_id=815500364907
