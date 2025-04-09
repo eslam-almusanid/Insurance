@@ -1,6 +1,7 @@
 # Insurance Broker Platform
 
-This is a Laravel-based insurance broker platform designed to manage users, vehicles, drivers, insurance offers, policies, and payments. The system uses multiple PostgreSQL databases (`user_db`, `vehicle_db`, `insurance_db`, and `shared_db`) to separate concerns and ensure scalability. It supports features like new/transfer insurance types, registration types (new, renew, customs card), and a streamlined workflow for offer generation and policy management.
+This is a Laravel-based insurance broker platform designed to manage users, vehicles, drivers, insurance offers, policies, and payments.
+It supports features like new/transfer insurance types, registration types (new, renew, customs card), and a streamlined workflow for offer generation and policy management.
 
 ## Features
 - **User Management**: Register and manage users with profiles, roles, and permissions.
@@ -8,7 +9,6 @@ This is a Laravel-based insurance broker platform designed to manage users, vehi
 - **Insurance Offers & Policies**: Request, generate, and accept insurance offers; issue policies with new/transfer and new/renew/customs card registration types.
 - **Payment Processing**: Handle payments with multiple methods (e.g., Mada, Visa).
 - **Notifications & Audits**: Send notifications and log actions for accountability.
-- **Multi-Database Architecture**: Separate databases for users, vehicles, insurance, and shared data.
 
 ## Prerequisites
 - PHP 8.1 or higher
@@ -19,10 +19,6 @@ This is a Laravel-based insurance broker platform designed to manage users, vehi
 ## Installation
 
 ### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/insurance-broker-platform.git
-cd insurance-broker-platform
-```
 
 ### 2. Clone the Repository
 ```bash
@@ -36,16 +32,12 @@ cp .env.example .env
 ```
 #### b. Edit .env with your PostgreSQL credentials and database names:
 ```bash
-DB_CONNECTION=user_db
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_USERNAME=your_username
+DB_PORT=3306
+DB_DATABASE=example_app
+DB_USERNAME=user_name
 DB_PASSWORD=your_password
-
-USER_DB_DATABASE=user_db
-VEHICLE_DB_DATABASE=vehicle_db
-INSURANCE_DB_DATABASE=insurance_db
-SHARED_DB_DATABASE=shared_db
 ```
 #### c. Generate an application key:
 ```bash
@@ -129,6 +121,5 @@ routes/
 │   │   └── api.php
 │   └── V2/
 │       └── api.php
-
 ### 8. Workflow
 https://miro.com/welcomeonboard/VS9SdDJJQ2JkVHVMeVpsQ3dGYkVpNW5lR3BvSnVYRzZoVzFVOUFzNUtHbjI1clpBZHA1MkQ0WTRyVjkrMGk0eWJNTWFzN25NOXhQb3czK1BtalJFejFiVDhydFQ5UG9leWtVMzZYbTBVejRKblMwVGpDbzg5WUFOSTBPWmJzQ3Z3VHhHVHd5UWtSM1BidUtUYmxycDRnPT0hdjE=?share_link_id=815500364907
